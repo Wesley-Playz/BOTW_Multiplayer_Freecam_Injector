@@ -12,6 +12,7 @@ namespace BOTW_Multiplayer_Freecam_Injector
         private ListBox processListBox;
         private Button refreshButton;
         private Button injectButton;
+        private Button browseButton;
         private TextBox dllPathTextBox;
 
         [DllImport("kernel32.dll", SetLastError = true)]
@@ -47,7 +48,7 @@ namespace BOTW_Multiplayer_Freecam_Injector
 
         private void SetupForm()
         {
-            this.Text = "DLL Injector";
+            this.Text = "BOTW Multiplayer Freecam Injector";
             this.Width = 600;
             this.Height = 400;
 
@@ -91,14 +92,36 @@ namespace BOTW_Multiplayer_Freecam_Injector
             };
             this.Controls.Add(dllPathTextBox);
 
+            browseButton = new Button()
+            {
+                Text = "Browse",
+                Location = new System.Drawing.Point(440, 300),
+                Width = 120
+            };
+            browseButton.Click += BrowseButton_Click;
+            this.Controls.Add(browseButton);
+
             injectButton = new Button()
             {
                 Text = "Inject DLL",
-                Location = new System.Drawing.Point(440, 300),
+                Location = new System.Drawing.Point(440, 330),
                 Width = 120
             };
             injectButton.Click += InjectButton_Click;
             this.Controls.Add(injectButton);
+        }
+
+        private void BrowseButton_Click(object sender, EventArgs e)
+        {
+            // Open file dialog to select DLL
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "DLL Files|*.dll";
+            openFileDialog.Title = "Select DLL File";
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                // Set the selected file path in the text box
+                dllPathTextBox.Text = openFileDialog.FileName;
+            }
         }
 
         private void RefreshButton_Click(object sender, EventArgs e)
